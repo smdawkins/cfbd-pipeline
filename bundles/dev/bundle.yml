@@ -1,0 +1,41 @@
+bundle:
+  name: cfbd-pipeline
+resources:
+  jobs:
+    cfbd_job:
+      name: cfbd-pipeline (dev)
+      tasks:
+        - task_key: ingest
+          notebook_task:
+            notebook_path: /Repos/${workspace.current_user}/cfbd-pipeline/notebooks/ingest_cfbd.py
+            base_parameters:
+              endpoint: teams_box
+              season: "2024"
+              week: "1"
+              division: fbs
+              catalog: cfbd
+          job_cluster_key: j
+        - task_key: build_silver
+          depends_on: [{ task_key: ingest }]
+          notebook_task:
+            notebook_path: /Repos/${workspace.current_user}/cfbd-pipeline/notebooks/flatten_and_write.py
+            base_parameters:
+              endpoint: teams_box
+              season: "2024"
+              week: "1"
+              catalog: cfbd
+              mode: explode_all
+          job_cluster_key: j
+      job_clusters:
+        - job_cluster_key: j
+          new_cluster:
+            spark_version: "14.3.x-scala2.12"
+            runtime_engine: PHOTON
+            autoscale: { min_workers: 1, max_workers: 4 }
+targets:
+  dev:
+    default: true
+    workspace:
+      host: https://<your-workspace-url>   # fill me
+    run_as:
+      user_name: <you@domain.com>          # fill me
