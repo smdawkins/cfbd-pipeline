@@ -1,4 +1,4 @@
-Metadata-Version: 2.4
+Metadata-Version: 2.1
 Name: cfbd-pipeline
 Version: 0.0.1
 Summary: helper functions
@@ -7,7 +7,3 @@ Author-email: stephen@dawkinsdigital.com
 Requires-Dist: setuptools
 Requires-Dist: requests>=2.31
 Requires-Dist: pyspark>=3.5
-Dynamic: author
-Dynamic: author-email
-Dynamic: requires-dist
-Dynamic: summary
