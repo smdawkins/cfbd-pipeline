@@ -1,0 +1,39 @@
+bundle:
+  name: cfbd-pipeline
+
+artifacts:
+  wheel:
+    type: whl
+    path: .
+    build: |
+      python -m pip install -U pip setuptools wheel
+      python setup.py bdist_wheel
+
+
+resources:
+  
+  jobs:
+    cfbd_job:
+      name: cfbd-pipeline (dev)
+      tasks:
+        - task_key: ingest
+          python_wheel_task:
+            package_name: cfbd-pipeline
+            entry_point: cfbd-ingest
+            parameters: ["--endpoint","games","--season","2025","--week","1","--division","fbs","--catalog","cfbd"]
+          
+        - task_key: silver
+          depends_on: [{ task_key: ingest }]
+          python_wheel_task:
+            package_name: cfbd-pipeline
+            entry_point: cfbd-silver
+            parameters: ["--endpoint","games","--season","2025","--week","1","--catalog","cfbd","--mode","explode_all"]
+          
+          
+targets:
+  dev:
+    default: true
+    workspace:
+      host: https://dbc-10f600ea-4096.cloud.databricks.com/   # fill me
+    run_as:
+      user_name: stephen@dawkinsdigital.com          # fill me

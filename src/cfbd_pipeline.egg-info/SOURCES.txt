@@ -1,0 +1,13 @@
+README.md
+setup.py
+src/cfbd/__init__.py
+src/cfbd/bronze.py
+src/cfbd/endpoints.py
+src/cfbd/http.py
+src/cfbd/jobs.py
+src/cfbd/silver.py
+src/cfbd_pipeline.egg-info/PKG-INFO
+src/cfbd_pipeline.egg-info/SOURCES.txt
+src/cfbd_pipeline.egg-info/dependency_links.txt
+src/cfbd_pipeline.egg-info/requires.txt
+src/cfbd_pipeline.egg-info/top_level.txt

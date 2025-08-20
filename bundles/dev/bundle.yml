@@ -9,7 +9,7 @@ resources:
           notebook_task:
             notebook_path: /Repos/${workspace.current_user}/cfbd-pipeline/notebooks/ingest_cfbd.py
             base_parameters:
-              endpoint: teams_box
+              endpoint: games
               season: "2024"
               week: "1"
               division: fbs
@@ -20,7 +20,7 @@ resources:
           notebook_task:
             notebook_path: /Repos/${workspace.current_user}/cfbd-pipeline/notebooks/flatten_and_write.py
             base_parameters:
-              endpoint: teams_box
+              endpoint: games
               season: "2024"
               week: "1"
               catalog: cfbd
@@ -36,6 +36,6 @@ targets:
   dev:
     default: true
     workspace:
-      host: https://<your-workspace-url>   # fill me
+      host: https://dbc-10f600ea-4096.cloud.databricks.com/   # fill me
     run_as:
-      user_name: <you@domain.com>          # fill me
+      user_name: stephen@dawkinsdigital.com          # fill me
