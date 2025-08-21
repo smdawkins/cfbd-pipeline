@@ -1,4 +1,4 @@
-from .http import build_session, fetch_json
+from .http_connector import build_session, fetch_json
 from .bronze import write_bronze_raw
 from .silver import infer_schema_from_sample, parse_raw_to_cols, flatten_structs_until_done, flatten_and_explode_all, upsert_merge
 from .endpoints import ENDPOINTS
@@ -34,11 +34,11 @@ def run_build_silver_flat(spark, silver_schema: str, bronze_schema: str, endpoin
         flat = flatten_structs_until_done(df)
 
     # OPTIONAL: clean up column prefixes for common arrays/structs
-    '''for old in list(flat.columns):
+    for old in list(flat.columns):
         for p in ("teams_", "stats_", "linescores_", "plays_", "events_"):
             if old.startswith(p):
                 flat = flat.withColumnRenamed(old, old[len(p):])
-
+    '''
     target = f"{silver_schema}.{conf['target']}_{'flat' if mode=='flatten_only' else 'flat_rows'}"
     (flat.write
          .format("delta")
@@ -47,4 +47,4 @@ def run_build_silver_flat(spark, silver_schema: str, bronze_schema: str, endpoin
          .saveAsTable(target))
     return target'''
 
-    upsert_merge(flat, silver_tbl, keys=["id","teamId","stat_category"], partition_by=["_season","_week"])
+    upsert_merge(flat, silver_tbl, keys=["id","teamId","stats_category"], partition_by=["_season","_week"])

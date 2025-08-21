@@ -1,6 +1,7 @@
 import json, datetime
 from pyspark.sql import functions as F
 
+#AUDIT_SCHEMA = "raw string,  _season int, _week int, _source string"
 AUDIT_SCHEMA = "raw string, _ingest_ts string, _season int, _week int, _source string"
 
 def write_bronze_raw(spark, records, endpoint_name: str, bronze_schema: str, season: int, week: int):

@@ -4,7 +4,7 @@ import src
 
 setup(
   name = "cfbd-pipeline",
-  version = "0.0.1",
+  version = "0.0.2",
   author = "Stephen Dawkins",
   author_email = "stephen@dawkinsdigital.com",
   description = "helper functions",

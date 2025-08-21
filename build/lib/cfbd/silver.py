@@ -89,7 +89,7 @@ def upsert_merge(df, target_table: str, keys: list[str], partition_by: list[str]
     target = DeltaTable.forName(spark, target_table)
     (target.alias("t")
            .merge(df.alias("s"), cond)
-           .whenMatchedUpdate(condition=F.col("s._ingest_ts") > F.col("t._ingest_ts"),
+           .whenMatchedUpdate(
          set=set_map)
            .whenNotMatchedInsertAll()
            .execute())
