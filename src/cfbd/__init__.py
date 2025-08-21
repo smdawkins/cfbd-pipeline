@@ -1,1 +1,1 @@
-__all__ = ["endpoints", "http", "bronze", "silver", "jobs"]
+__all__ = ["endpoints", "http_connector", "bronze", "silver", "jobs"]

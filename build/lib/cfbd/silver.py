@@ -59,3 +59,38 @@ def flatten_and_explode_all(df, sep="_"):
         if exploded: continue
 
         return df
+
+from delta.tables import DeltaTable
+
+def upsert_merge(df, target_table: str, keys: list[str], partition_by: list[str] | None = None):
+    """
+    Upsert df into target_table on 'keys'. Creates the table if it doesn't exist.
+    - Keeps all columns from df (update all / insert all)
+    - Preserves partitioning you choose on the first create
+    """
+    spark = df.sparkSession
+    table_exists = spark.catalog.tableExists(target_table)
+
+    if not table_exists:
+        w = df.write.format("delta").mode("overwrite")
+        if partition_by:
+            w = w.partitionBy(*partition_by)
+        w.saveAsTable(target_table)
+        return
+
+    cond = " AND ".join([f"t.{k} = s.{k}" for k in keys])
+
+    non_keys = [c for c in df.columns if c not in keys]
+    set_map = {c: F.col(f"s.{c}") for c in non_keys}
+
+    print(cond)
+    print (set_map)
+
+    target = DeltaTable.forName(spark, target_table)
+    (target.alias("t")
+           .merge(df.alias("s"), cond)
+           .whenMatchedUpdate(condition=F.col("s._ingest_ts") > F.col("t._ingest_ts"),
+         set=set_map)
+           .whenNotMatchedInsertAll()
+           .execute())
+

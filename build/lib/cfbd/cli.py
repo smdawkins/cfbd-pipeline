@@ -15,7 +15,7 @@ def ingest():
     spark.sql(f"CREATE SCHEMA  IF NOT EXISTS {a.catalog}.bronze")
 
     from cfbd.jobs import run_ingest_to_bronze
-    api_key = dbutils.secrets.get("cfbd", "api_key")
+    api_key = dbutils.secrets.get("cfbd", "api-key")
     run_ingest_to_bronze(spark, api_key, f"{a.catalog}.bronze", a.endpoint, a.season, a.week, a.division)
 
 def silver():

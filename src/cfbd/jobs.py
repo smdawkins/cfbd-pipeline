@@ -1,7 +1,7 @@
-from .http import build_session, fetch_json
-from .bronze import write_bronze_raw
-from .silver import infer_schema_from_sample, parse_raw_to_cols, flatten_structs_until_done, flatten_and_explode_all, upsert_merge
-from .endpoints import ENDPOINTS
+from http_connector import build_session, fetch_json
+from bronze import write_bronze_raw
+from silver import infer_schema_from_sample, parse_raw_to_cols, flatten_structs_until_done, flatten_and_explode_all, upsert_merge
+from endpoints import ENDPOINTS
 from pyspark.sql import functions as F
 
 BASE_URL = "https://api.collegefootballdata.com"

@@ -4,7 +4,7 @@ src/cfbd/__init__.py
 src/cfbd/bronze.py
 src/cfbd/cli.py
 src/cfbd/endpoints.py
-src/cfbd/http.py
+src/cfbd/http_connector.py
 src/cfbd/jobs.py
 src/cfbd/silver.py
 src/cfbd_pipeline.egg-info/PKG-INFO
